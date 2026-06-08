@@ -314,19 +314,6 @@ always set `graceAfterJoinMs` high enough for spawn loaders.
 
 ---
 
-## what will shock people when you post this
-
-1. **it's not readme-only** — full resource with 15+ detection modules
-2. **SecureRegister** — copy-paste event hardening with schema validation
-3. **heartbeat anti-stop** — catches people killing your ac resource
-4. **weighted strikes** — not dumb "1 flag = ban"
-5. **entityCreating limits** — stops object/vehicle rain
-6. **weaponDamageEvent distance check** — server-side impossible shot detection
-7. **discord embeds** — looks professional out of the box
-8. **exports** — other devs can plug into it
-
----
-
 ## github post template
 
 **name:** `FiveM-AntiCheat`  
