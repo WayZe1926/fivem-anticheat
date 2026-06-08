@@ -1,4 +1,4 @@
-# FiveM Anti-Cheat Knowledge — Ultimate Edition (v2)
+# FiveM Anti-Cheat 
 
 > **not a paste from a wiki. not a 47-line bypass from 2023. a full server-authoritative anticheat suite with real modules, real sql, real exports — built for devs who are tired of getting their economy deleted by one unprotected net event.**
 
