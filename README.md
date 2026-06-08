@@ -1,4 +1,4 @@
-# FiveM Anti-Cheat 
+# FiveM Anti-Cheat Example
 
 > **not a paste from a wiki. not a 47-line bypass from 2023. a full server-authoritative anticheat suite with real modules, real sql, real exports — built for devs who are tired of getting their economy deleted by one unprotected net event.**
 
@@ -89,7 +89,7 @@ MYSQL   = truth (transactions, bans, evidence)
 ### admin & enforcement
 | feature | client | server | config key |
 |---------|--------|--------|------------|
-| ace bypass (`ac.knowledge.bypass`) | — | ✅ | `Config.Admin` |
+| ace bypass (`ac.bypass`) | — | ✅ | `Config.Admin` |
 | weighted strike system | — | ✅ | `strikeWeight` table |
 | strike decay | — | ✅ | `Config.Strikes.decaySec` |
 | kick / temp ban / perm ban | — | ✅ | `Config.Strikes` |
@@ -109,7 +109,7 @@ MYSQL   = truth (transactions, bans, evidence)
 ## project structure
 
 ```
-fivem-anticheat-knowledge/
+fivem-anticheat/
 ├── fxmanifest.lua
 ├── README.md
 ├── shared/
@@ -144,13 +144,13 @@ fivem-anticheat-knowledge/
 
 ## install (2 minutes)
 
-1. drop in `resources/[local]/fivem-anticheat-knowledge`
+1. drop in `resources/[local]/fivem-anticheat`
 2. import `sql/schema.sql`
 3. `server.cfg`:
    ```
    ensure oxmysql
-   add_ace group.admin ac.knowledge.bypass allow
-   ensure fivem-anticheat-knowledge
+   add_ace group.admin ac.bypass allow
+   ensure fivem-anticheat
    ```
 4. optional discord webhook in `shared/config.lua`:
    ```lua
@@ -211,7 +211,7 @@ end)
 
 **good — server owns truth:**
 ```lua
-exports['fivem-anticheat-knowledge']:SecureRegister('shop:sell', function(src, itemName, amount)
+exports['fivem-anticheat']:SecureRegister('shop:sell', function(src, itemName, amount)
     local prices = { gold = 5000, fish = 80 }
     local unit = prices[itemName]
     if not unit then return end
@@ -233,23 +233,23 @@ client sends **intent**. server sends **truth**. menu sends whatever it wants �
 
 ```lua
 -- flag from another resource
-exports['fivem-anticheat-knowledge']:FlagPlayer(source, 'custom_reason', { foo = 'bar' })
+exports['fivem-anticheat']:FlagPlayer(source, 'custom_reason', { foo = 'bar' })
 
 -- manual strike
-exports['fivem-anticheat-knowledge']:AddStrike(source, 'manual', {})
+exports['fivem-anticheat']:AddStrike(source, 'manual', {})
 
 -- check strikes
-local n = exports['fivem-anticheat-knowledge']:GetPlayerStrikes(source)
+local n = exports['fivem-anticheat']:GetPlayerStrikes(source)
 
 -- admin bypass check
-if exports['fivem-anticheat-knowledge']:IsBypassed(source) then return end
+if exports['fivem-anticheat']:IsBypassed(source) then return end
 
 -- ban / kick
-exports['fivem-anticheat-knowledge']:BanPlayer(source, 'economy_abuse', 72) -- 72h
-exports['fivem-anticheat-knowledge']:KickPlayer(source, 'Kicked')
+exports['fivem-anticheat']:BanPlayer(source, 'economy_abuse', 72) -- 72h
+exports['fivem-anticheat']:KickPlayer(source, 'Kicked')
 
 -- wrap your own events
-exports['fivem-anticheat-knowledge']:SecureRegister('myjob:finish', function(src, jobId)
+exports['fivem-anticheat']:SecureRegister('myjob:finish', function(src, jobId)
     -- server logic
 end, { cooldown = 1000, schema = { { type = 'string', enum = { 'delivery', 'mining' } } } })
 ```
@@ -265,7 +265,7 @@ end, { cooldown = 1000, schema = { { type = 'string', enum = { 'delivery', 'mini
 
 give staff bypass:
 ```
-add_ace identifier.license:xxxx ac.knowledge.bypass allow
+add_ace identifier.license:xxxx ac.bypass allow
 ```
 
 ---
@@ -329,7 +329,7 @@ always set `graceAfterJoinMs` high enough for spawn loaders.
 
 ## github post template
 
-**name:** `FiveM-AntiCheat-Knowledge`  
+**name:** `FiveM-AntiCheat`  
 **desc:** `Advanced server-authoritative FiveM anticheat — movement, combat, economy, entity spam, heartbeat, bans, exports. Real code. No bypass garbage.`  
 **tags:** `fivem`, `anticheat`, `adhesive`, `lua`, `security`, `gta5`, `oxmysql`
 
